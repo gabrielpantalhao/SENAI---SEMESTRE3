@@ -59,56 +59,8 @@ export default function App() {
     atualizaRegistros();
   }, []);
 
-  //Função para inserir novo registro
-  const adicionaFilme = () => {
-    if (nomeFilme.trim() === '') {
-      Alert.alert('Erro', 'Por favor, insira um texto válido para adicionar o filme');
-      return;
-    }
 
-    if (operacao === 'Adicionar') {
-      db.transaction(
-        tx => {
-          tx.executeSql(
-            'INSERT INTO filmes (descFilme) VALUES (?)',
-            [nomeFilme],
-            (_, { rowsAffected }) => {
-              console.log(rowsAffected);
-              setNomeFilme('');
-              atualizaRegistros();
-            },
-            (_, error) => {
-              console.error('Erro ao adicionar filme:', error);
-              Alert.alert('Erro', 'Ocorreu um erro ao adicionar o filme.');
-            }
-          );
-        }
-      );
-    } else if (operacao === 'Editar') {
-      db.transaction(
-        tx => {
-          tx.executeSql(
-            'UPDATE filmes SET descFilme=? WHERE id=?',
-            [nomeFilme, id],
-            (_, { rowsAffected }) => {
-              if (rowsAffected === 1)
-                Alert.alert('Sucesso', 'Registro alterado com sucesso!');
-              else if (rowsAffected === 0)
-                Alert.alert('Atenção', 'O registro não foi localizado na Base de Dados!')
-              console.log(rowsAffected);
-              setNomeFilme('');
-              atualizaRegistros();
-              setOperacao('Adicionar');
-            },
-            (_, error) => {
-              console.error('Erro ao adicionar filme:', error);
-              Alert.alert('Erro', 'Ocorreu um erro ao adicionar o filme.');
-            }
-          );
-        }
-      );
-    }
-  }
+
 
   //Função utilizada para excluir um registro
   const excluiFilme = (id) => {
