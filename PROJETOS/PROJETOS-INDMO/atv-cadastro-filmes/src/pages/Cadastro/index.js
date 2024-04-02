@@ -49,7 +49,7 @@ export default function Cadastro() {
                   console.log(rowsAffected);
                   setNomeFilme('');
                   setGeneroFilme('');
-                  setClassificacaoFilme('');
+                  setClassificacaoFilme(0);
                   setDataFilme('');
                   atualizaRegistros();
                   setOperacao('Adicionar');
@@ -63,7 +63,6 @@ export default function Cadastro() {
           );
         }
       }
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -160,5 +159,4 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    
 });

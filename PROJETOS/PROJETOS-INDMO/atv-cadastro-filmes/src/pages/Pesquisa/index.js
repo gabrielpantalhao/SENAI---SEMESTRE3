@@ -1,23 +1,40 @@
 import React from 'react';
-import { SafeAreaView, Text, StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, TextInput, View, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { DatabaseConnection } from '../../database/database';
+
+const db = new DatabaseConnection.getConnection;
 
 export default function Pesquisa() {
     const navigation = useNavigation();
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.contentContainer}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Página Pesquisa</Text>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.keyboardAvoidingContainer}
+            >
+                <View style={styles.contentContainer}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>Digite uma informação</Text>
+                        <Text style={styles.title}>Para pesquisar</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput style={styles.input} placeholder='Nome ou ID' />
+
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Pesquisar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.contentFilme}>
+                        <Text style={styles.textId}></Text>
+                        <Text style={styles.descText}></Text>
+                        <Text style={styles.descText}></Text>
+                        <Text style={styles.descText}></Text>
+                    </View>
                 </View>
-                <View style={styles.inputContainer}>
-                    <TextInput style={styles.input} placeholder='Nome ou ID' />
-                </View>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-                    <Text style={styles.buttonText}>Voltar</Text>
-                </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
@@ -27,6 +44,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    keyboardAvoidingContainer: {
+        flex: 1,
     },
     contentContainer: {
         paddingHorizontal: 20,
@@ -43,6 +63,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         marginBottom: 15,
+        alignItems: 'center',
     },
     input: {
         borderWidth: 1,
@@ -51,17 +72,49 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 8,
         fontSize: 16,
+        width: 350,
+        height: 50, // Altura fixa para o TextInput
     },
     button: {
-        backgroundColor: '#3498db',
+        backgroundColor: 'green',
         padding: 15,
         borderRadius: 5,
         alignItems: 'center',
         marginTop: 20,
+        width: 200
     },
     buttonText: {
         color: 'white',
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
     },
+    textId:{
+        color: 'white',
+        fontSize: 30,
+        fontWeight: 'bold',
+        paddingBottom: 20
+    },
+    descText:{
+        color: 'white',
+        fontSize: 20,
+        padding: 5,
+        textAlign: 'center'
+        
+    },
+    contentFilme:{
+        width: 'auto',
+        margin: 20,
+        top: 50,
+        backgroundColor: '#708090',
+        borderRadius: 10,
+        padding: 10,
+        shadowColor: '#000', // Cor da sombra
+        shadowOffset: {
+            width: 5,
+            height: 10,
+          },
+          shadowOpacity: 0.4, // Opacidade da sombra
+           // Raio da sombra
+          elevation: 10, // Elevação para a sombra (para Android)
+        },
 });
