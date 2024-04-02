@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, Alert} from 'react-native';
 
 //CONEXÃO COM O BANCO DE DADOS
 export const DatabaseConnection = {
@@ -18,7 +19,7 @@ db.transaction(tx => {
     );
 });
 
-const selecionaFilmes = () => {
+export const selecionaFilmes = () => {
     try {
       db.transaction(tx => {
         tx.executeSql('SELECT * FROM filmes',
@@ -33,7 +34,7 @@ const selecionaFilmes = () => {
     }
   };
 
-const adicionaFilme = (descFilme, genero, classificacao, dataCadast) => {
+ export const AdicionaFilme = (descFilme, genero, classificacao, dataCadast) => {
     db.transaction(
         tx => {
             tx.executeSql(
@@ -53,7 +54,7 @@ const adicionaFilme = (descFilme, genero, classificacao, dataCadast) => {
 
 };
 
-const atualizaFilme = (descFilme, genero, classificacao, id) => {
+export const atualizaFilme = (descFilme, genero, classificacao, id) => {
     db.transaction(
         tx => {
             tx.executeSql(
@@ -76,7 +77,7 @@ const atualizaFilme = (descFilme, genero, classificacao, id) => {
     );
 };
 
-const excluiFilme = (id) => {
+ export const excluiFilme = (id) => {
     db.transaction(tx => {
       tx.executeSql('DELETE FROM filmes where id=?',
         [id],
