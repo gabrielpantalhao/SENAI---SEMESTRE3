@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import * as Notifications from 'expo-notifications';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 
 Notifications.setNotificationHandler({
@@ -17,9 +17,23 @@ Notifications.setNotificationHandler({
 export default function App() {
 
 const [expoToken, setExpoToken] =useState('');
+
+const notificationRecivedRef = useRef();
+
+const notificationResponseRef = useRef();
+
+
 // UseEffect chama função que verifica se o usuario possui permissap para receber notificação
 useEffect(() => {
   registerForPushNotificationsAsync().then(token => setExpoToken(token));
+
+  notificationRecivedRef.current = Notifications.addNotificationReceivedListener(notification => {
+    console.log('Notificação recebida: ', notification);
+  });
+
+  notificationResponseRef.current = Notifications.addNotificationResponseReceivedListener(notification => {
+    console.log('Notificação clicada: ', notification);
+  });
 }, []);
 
 
@@ -75,6 +89,7 @@ async function registerForPushNotificationsAsync(){
   }
 
   token = (await Notifications.getExpoPushTokenAsync({ projectId: 'e3edf413-a69a-4fab-bda0-bf2409450d8c'})).data;
+  console.log(token);
   return token;
 }
 
