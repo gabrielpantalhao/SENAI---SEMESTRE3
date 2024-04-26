@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/pages/Home';
 import Notificacoes from './src/pages/Notificacoes';
 
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -22,10 +21,14 @@ export default function App() {
         <Stack.Screen
           name='Notificacoes'
           component={Notificacoes}
+          options={{
+            headerStyle: {
+              backgroundColor: '#121212', // Cor de fundo da barra de navegação (header)
+            },
+            headerTintColor: '#FFF', // Cor do texto da barra de navegação (header)
+          }}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
-
 };
