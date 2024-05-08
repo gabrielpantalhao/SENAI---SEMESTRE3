@@ -116,7 +116,7 @@ Tipos de Dados:
 ### 2.2. Dependências
 - Componentes:
   - **xml2js**, realiza leitura e converte o arquivo XML.
-    - `npx install xml2js`  
+    - `npm install xml2js`  
 
 
 
