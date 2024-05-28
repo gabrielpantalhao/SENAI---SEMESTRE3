@@ -1,5 +1,3 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useEffect, useState, useRef } from "react";
 import { Button, Text, TouchableOpacity, View, ImageBackground, Alert } from "react-native";
@@ -11,7 +9,7 @@ export default function App() {
 
   const cameraRef = useRef();
   const [startCamera, setStartCamera] = useState(false);
-  const [capturedImage, setCapturedCamera] = useState(null);
+  const [capturedImage, setCapturedImage] = useState(null);
   const [flashMode, setFlashMode] = useState('off');
   const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
@@ -30,14 +28,28 @@ export default function App() {
 
   const takePicture = async () => {
 
+    try {
+      const photo = await cameraRef.current.takePictureAsync();
+      console.log(photo)
+      setCapturedImage(photo.uri);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-
+    if(capturedImage) {
+      savePhoto();
+    }
   }, [capturedImage]);
 
   const savePhoto = async () => {
-
+    const asset = await Medialibrary.createAssetAsync(capturedImage)
+      .then(() => {
+        Alert.alert('Foto salva com sucesso!')
+      }).catch(error => {
+        console.log(error);
+      });
   }
 
   const handleFashMode = () => {
@@ -45,7 +57,7 @@ export default function App() {
   }
 
   const toggleCameraFacing = () => {
-
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
   }
 
   if (!permission) {
